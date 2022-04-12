@@ -68,7 +68,7 @@ jobs:
           bucket_name: ${{ inputs.bucket_name }}
           key_prefix: build/${{ inputs.app_name }}
 
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3.1.1
         if: steps.s3-cache.outputs.processed == 'false'
         with:
           node-version: "16"
@@ -77,16 +77,15 @@ jobs:
 
       - name: Install Dependencies
         if: steps.s3-cache.outputs.processed == 'false'
-        uses: bahmutov/npm-install@v1.7.11
+        uses: bahmutov/npm-install@v1.8.7
         with:
           useRollingCache: true
-          install-command: yarn --frozen-lockfile --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_REGISTRY_NPM_TOKEN }}
 
       - name: Build
         if: steps.s3-cache.outputs.processed == 'false'
-        run: yarn ${{ inputs.build_script }}
+        run: npm run ${{ inputs.build_script }}
 
       - name: Get Bundle S3 URI
         id: bundle-uri

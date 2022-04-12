@@ -104,7 +104,7 @@ jobs:
       - name: Apply Environment Config
         if: inputs.apply_config
         run: |
-          yarn apply:config dist ${{ inputs.environment }} ${{ inputs.tree_hash }}
+          npm run apply:config dist ${{ inputs.environment }} ${{ inputs.tree_hash }}
 
       - name: Copy Static Files
         run: |
